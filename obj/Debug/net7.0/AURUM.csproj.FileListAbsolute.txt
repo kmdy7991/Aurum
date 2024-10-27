@@ -40,3 +40,4 @@ C:\Users\kmdy7\source\repos\AURUM\AURUM\obj\Debug\net7.0\AURUM.csproj.AssemblyRe
 C:\Users\kmdy7\source\repos\AURUM\AURUM\obj\Debug\net7.0\AURUM.csproj.Up2Date
 C:\Users\kmdy7\source\repos\AURUM\AURUM\bin\Debug\net7.0\Blazored.Modal.dll
 C:\Users\kmdy7\source\repos\AURUM\AURUM\bin\Debug\net7.0\Microsoft.JSInterop.WebAssembly.dll
+C:\Users\kmdy7\source\repos\AURUM\AURUM\obj\Debug\net7.0\AURUM.sourcelink.json
