@@ -1,0 +1,25 @@
+﻿@using AURUM.Data
+@inject Count count;
+
+<h3>투표 결과</h3>
+<div>
+    <p>짬뽕 : @count.Num1 표 (@count.Percent(count.Num1, count.Sum))</p>
+    <p>짜장면 : @count.Num2 표 (@count.Percent(count.Num2, count.Sum))</p>
+    <p>볶음밥 : @count.Num3 표 (@count.Percent(count.Num3, count.Sum))</p>
+
+    <button @onclick="Close" class="btn btn-primary">Close</button>
+    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    private async Task Close(){
+        await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+        count.ClearSet();
+    }
+    private async Task Cancel() {
+        await BlazoredModal.CancelAsync();
+        count.ClearSet();
+    }
+}

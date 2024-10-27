@@ -1,0 +1,85 @@
+﻿@page "/counter"
+@using AURUM.Data
+
+@inject Blazored.SessionStorage.ISessionStorageService session
+
+@inject Visitors visitors
+@inject Count count
+@inject IJSRuntime js;
+
+<PageTitle>투표합시다</PageTitle>
+
+<h1>점심 메뉴를 투표해주세요.</h1>
+
+<p role="status">Current count: @count.Sum</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount1">짬뽕</button> <p>현재 득표수: @count.Num1</p>
+<button class="btn btn-primary" @onclick="IncrementCount2"> 짜장면</button> <p>현재 득표수: @count.Num2</p>
+<button class="btn btn-primary" @onclick="IncrementCount3">볶음밥</button> <p>현재 득표수: @count.Num3</p>
+
+<button class="btn btn-primary" @onclick="openModal">투표 마감</button>
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    public string visit = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        visit = await session.GetItemAsync<string>("visitor");
+
+        if (visit == null)
+        {
+            visit = Guid.NewGuid().ToString();
+            await session.SetItemAsStringAsync("visitor", visit);
+        }
+        Console.WriteLine(visit);
+    }
+
+    private async void openModal()
+    {
+        if (count.Sum != 0)
+        {
+            Modal.Show<Result>("Show Result");
+            await session.ClearAsync();
+            visitors.Store.Clear();
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert", "투표를 진행하지 않았습니다.");
+        }
+    }
+
+
+    private void IncrementCount1()
+    {
+        if (!visitors.Store.Contains(visit))
+        {
+            count.Num1++;
+            totalCount();
+        }
+    }
+
+    private void IncrementCount2()
+    {
+        if (!visitors.Store.Contains(visit))
+        {
+            count.Num2++;
+            totalCount();
+        }
+    }
+
+    private void IncrementCount3()
+    {
+        if (!visitors.Store.Contains(visit))
+        {
+            count.Num3++;
+            totalCount();
+        }
+    }
+
+    private void totalCount()
+    {
+        count.Sum++;
+        visitors.Store.Add(visit);
+    }
+}
